@@ -4,7 +4,7 @@ const { readDataFromFile } = require('../../src/view/IO.js');
 describe('readDataFromFile', () => {
   test('should return data when file is read successfully', () => {
     const filePath = './tests/view.tests/validInput.txt';
-    const expectedData = ['5 6\r', '..p...\r', '##p.##\r', '##pp##\r', '##..##\r', '##..##'];
+    const expectedData = ['5 6', '..p...', '##p.##', '##pp##', '##..##', '##..##'];
     const result = readDataFromFile(filePath);
 
     expect(result).toEqual(expectedData);
