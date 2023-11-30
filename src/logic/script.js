@@ -17,23 +17,26 @@ const createCollections = function (inputData) {
       }
     }
   }
-
   return { figurePoints, landscapePoints };
 };
 
 const createGrid = function (data) {
-  if (data.length === 0 || data[0] === '') {
-    throw new Error('Input array is empty');
+  try {
+    if (data.length === 0 || data[0] === '') {
+      throw new Error('Input array is empty');
+    }
+    const dimensions = data[0].split(' ').map(Number);
+    const rows = dimensions[0];
+    const cols = dimensions[1];
+    const grid = [];
+    for (let i = 1; i < data.length; i++) {
+      const row = data[i].split('');
+      grid.push(row);
+    }
+    return { dimensions: { rows, cols }, grid };
+  } catch (e) {
+    throw new Error(`Error: ${e.message}`);
   }
-  const dimensions = data[0].split(' ').map(Number);
-  const rows = dimensions[0];
-  const cols = dimensions[1];
-  const grid = [];
-  for (let i = 1; i < data.length; i++) {
-    const row = data[i].split('');
-    grid.push(row);
-  }
-  return { dimensions: { rows, cols }, grid };
 };
 
 module.exports = {

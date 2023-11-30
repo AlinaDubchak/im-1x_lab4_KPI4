@@ -1,7 +1,7 @@
 const { createCollections, createGrid } = require('../../src/logic/script');
 
 describe('createCollections', () => {
-  test('it should create collections of figure and landscape points', () => {
+  test('should create collections of figure and landscape points', () => {
     const inputData = {
       dimensions: { rows: 3, cols: 3 },
       grid: [
@@ -19,7 +19,7 @@ describe('createCollections', () => {
     ]);
   });
 
-  test('it should handle an empty grid', () => {
+  test('should handle an empty grid', () => {
     const inputData = {
       dimensions: { rows: 0, cols: 0 },
       grid: [],
@@ -30,7 +30,7 @@ describe('createCollections', () => {
     expect(result.landscapePoints).toEqual([]);
   });
 
-  test('it should handle a grid with no figure or landscape points', () => {
+  test('should handle a grid with no figure or landscape points', () => {
     const inputData = {
       dimensions: { rows: 3, cols: 3 },
       grid: [
@@ -47,7 +47,7 @@ describe('createCollections', () => {
 });
 
 describe('createGrid', () => {
-  test('it should create a grid with dimensions and data', () => {
+  test('should create a grid with dimensions and data', () => {
     const input = ['3 3', '..p', '.#.', '#..'];
     const result = createGrid(input);
 
@@ -59,18 +59,19 @@ describe('createGrid', () => {
     ]);
   });
 
-  test('it should throw an error if data is null', () => {
+  test('should throw an error if data is null', () => {
     const input = [];
 
     expect(() => createGrid(input)).toThrow('Input array is empty');
   });
 
-  test('it should handle a grid with no dimensions', () => {
+  test('should handle a grid with no dimensions', () => {
     const input = [''];
+
     expect(() => createGrid(input)).toThrow('Input array is empty');
   });
 
-  test('it should handle a grid with no data', () => {
+  test('should handle a grid with no data', () => {
     const input = ['3 3'];
     const result = createGrid(input);
 
