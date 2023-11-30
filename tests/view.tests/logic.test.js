@@ -1,4 +1,4 @@
-const { createCollections, createGrid } = require('../../src/logic/script.js');
+const { createCollections, createGrid } = require('../../src/logic/script');
 
 describe('createCollections', () => {
   test('it should create collections of figure and landscape points', () => {
