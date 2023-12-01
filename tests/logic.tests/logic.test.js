@@ -85,7 +85,7 @@ describe('moveFigureDown', () => {
   // ['#', '.', '.'],
   // ['#', '.', '.'],
 
-  test('should move the figure down if there is space', () => {
+  test('should move an ordinary figure down if there is space', () => {
     const initialField = new Field(
       { rows: 3, cols: 3 },
       [{ x: 2, y: 0 }],
@@ -97,6 +97,33 @@ describe('moveFigureDown', () => {
     const newField = moveFigureDown(initialField);
 
     expect(newField.figurePoints).toEqual([{ x: 2, y: 1 }]);
+  });
+
+  // ['.', 'p', 'p'],
+  // ['#', '.', '.'],
+  // ['#', '#', '.'],
+
+  test('should only move the whole figure down if there is space', () => {
+    const initialField = new Field(
+      { rows: 3, cols: 3 },
+      [
+        { x: 1, y: 0 },
+        { x: 2, y: 0 },
+      ],
+      [
+        { x: 0, y: 1 },
+        { x: 0, y: 2 },
+        { x: 1, y: 2 },
+      ]
+    );
+    const newField = moveFigureDown(initialField);
+    const newField2 = moveFigureDown(newField);
+    const newField3 = moveFigureDown(newField2);
+
+    expect(newField3.figurePoints).toEqual([
+      { x: 1, y: 1 },
+      { x: 2, y: 1 },
+    ]);
   });
 
   // ['.', '.', 'p'],
@@ -113,6 +140,7 @@ describe('moveFigureDown', () => {
       ]
     );
     const newField = moveFigureDown(initialField);
+
     expect(newField).toEqual(initialField);
   });
 
