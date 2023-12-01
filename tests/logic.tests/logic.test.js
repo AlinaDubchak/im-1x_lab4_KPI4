@@ -6,7 +6,7 @@ describe('createCollections', () => {
       dimensions: { rows: 3, cols: 3 },
       grid: [
         ['.', '.', 'p'],
-        ['.', '#', '.'],
+        ['#', '.', '.'],
         ['#', '.', '.'],
       ],
     };
@@ -14,7 +14,7 @@ describe('createCollections', () => {
 
     expect(result.figurePoints).toEqual([{ x: 2, y: 0 }]);
     expect(result.landscapePoints).toEqual([
-      { x: 1, y: 1 },
+      { x: 0, y: 1 },
       { x: 0, y: 2 },
     ]);
   });
@@ -48,13 +48,13 @@ describe('createCollections', () => {
 
 describe('createGrid', () => {
   test('should create a grid with dimensions and data', () => {
-    const input = ['3 3', '..p', '.#.', '#..'];
+    const input = ['3 3', '..p', '#..', '#..'];
     const result = createGrid(input);
 
     expect(result.dimensions).toEqual({ rows: 3, cols: 3 });
     expect(result.grid).toEqual([
       ['.', '.', 'p'],
-      ['.', '#', '.'],
+      ['#', '.', '.'],
       ['#', '.', '.'],
     ]);
   });
