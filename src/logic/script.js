@@ -39,7 +39,32 @@ const createGrid = function (data) {
   }
 };
 
+class Field {
+  constructor(dimensions, figurePoints, landscapePoints) {
+    this.dimensions = dimensions;
+    this.figurePoints = figurePoints;
+    this.landscapePoints = landscapePoints;
+  }
+}
+
+const moveFigureDown = function (field) {
+  const newFigurePoints = field.figurePoints.map((point) => ({ x: point.x, y: point.y + 1 }));
+  const overlap = newFigurePoints.some((point) =>
+    field.landscapePoints.some(
+      (landscapePoint) => landscapePoint.x === point.x && landscapePoint.y === point.y
+    )
+  );
+  const outOfBounds = newFigurePoints.some((point) => point.y >= field.dimensions.rows);
+
+  if (overlap || outOfBounds) {
+    return field;
+  }
+  return new Field(field.dimensions, newFigurePoints, field.landscapePoints);
+};
+
 module.exports = {
   createCollections,
   createGrid,
+  Field,
+  moveFigureDown,
 };
