@@ -1,4 +1,4 @@
-const { createCollections, createGrid } = require('../../src/logic/script');
+const { createCollections, createGrid, Field, moveFigureDown } = require('../../src/logic/script');
 
 describe('createCollections', () => {
   test('should create collections of figure and landscape points', () => {
@@ -77,5 +77,60 @@ describe('createGrid', () => {
 
     expect(result.dimensions).toEqual({ rows: 3, cols: 3 });
     expect(result.grid).toEqual([]);
+  });
+});
+
+describe('moveFigureDown', () => {
+  // ['.', '.', 'p'],
+  // ['#', '.', '.'],
+  // ['#', '.', '.'],
+
+  test('should move the figure down if there is space', () => {
+    const initialField = new Field(
+      { rows: 3, cols: 3 },
+      [{ x: 2, y: 0 }],
+      [
+        { x: 0, y: 1 },
+        { x: 0, y: 2 },
+      ]
+    );
+    const newField = moveFigureDown(initialField);
+
+    expect(newField.figurePoints).toEqual([{ x: 2, y: 1 }]);
+  });
+
+  // ['.', '.', 'p'],
+  // ['.', '.', '#'],
+  // ['.', '.', '#'],
+
+  test('should not move the figure down if it overlaps with landscape points', () => {
+    const initialField = new Field(
+      { rows: 3, cols: 3 },
+      [{ x: 2, y: 0 }],
+      [
+        { x: 2, y: 1 },
+        { x: 2, y: 2 },
+      ]
+    );
+    const newField = moveFigureDown(initialField);
+    expect(newField).toEqual(initialField);
+  });
+
+  // ['.', '.', '.'],
+  // ['#', '.', '.'],
+  // ['.', '#', 'p'],
+
+  test('should not move the figure down if it goes out of bounds', () => {
+    const initialField = new Field(
+      { rows: 3, cols: 3 },
+      [{ x: 2, y: 2 }],
+      [
+        { x: 0, y: 1 },
+        { x: 1, y: 2 },
+      ]
+    );
+    const newField = moveFigureDown(initialField);
+
+    expect(newField).toEqual(initialField);
   });
 });
