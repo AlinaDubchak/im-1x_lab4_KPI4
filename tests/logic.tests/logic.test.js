@@ -1,4 +1,51 @@
-const { createCollections, createGrid, Field, moveFigureDown } = require('../../src/logic/script');
+const {
+  createCollections,
+  createGrid,
+  Field,
+  moveFigureDown,
+  convertFieldToText,
+} = require('../../src/logic/script');
+
+describe('convertFieldToText', () => {
+  test('it should convert field to text with figure points represented by "p"', () => {
+    const field = {
+      dimensions: { rows: 3, cols: 3 },
+      figurePoints: [{ x: 1, y: 1 }],
+      landscapePoints: [],
+    };
+
+    const result = convertFieldToText(field);
+
+    expect(result).toBe('...\n.p.\n...');
+  });
+
+  test('it should convert field to text with landscape points represented by "#"', () => {
+    const field = {
+      dimensions: { rows: 3, cols: 3 },
+      figurePoints: [],
+      landscapePoints: [{ x: 0, y: 2 }],
+    };
+
+    const result = convertFieldToText(field);
+
+    expect(result).toBe('...\n...\n#..');
+  });
+
+  test('it should convert field to text with both figure and landscape points', () => {
+    const field = {
+      dimensions: { rows: 3, cols: 3 },
+      figurePoints: [
+        { x: 1, y: 1 },
+        { x: 2, y: 1 },
+      ],
+      landscapePoints: [{ x: 0, y: 2 }],
+    };
+
+    const result = convertFieldToText(field);
+
+    expect(result).toBe('...\n.pp\n#..');
+  });
+});
 
 describe('createCollections', () => {
   test('should create collections of figure and landscape points', () => {
@@ -77,6 +124,27 @@ describe('createGrid', () => {
 
     expect(result.dimensions).toEqual({ rows: 3, cols: 3 });
     expect(result.grid).toEqual([]);
+  });
+});
+
+describe('createCollections', () => {
+  test('should create collections of figure and landscape points', () => {
+    const inputData = {
+      dimensions: { rows: 3, cols: 3 },
+      grid: [
+        ['.', '.', 'p'],
+        ['.', '#', '.'],
+        ['#', '#', '.'],
+      ],
+    };
+    const result = createCollections(inputData);
+
+    expect(result.figurePoints).toEqual([{ x: 2, y: 0 }]);
+    expect(result.landscapePoints).toEqual([
+      { x: 1, y: 1 },
+      { x: 0, y: 2 },
+      { x: 1, y: 2 },
+    ]);
   });
 });
 
