@@ -1,19 +1,22 @@
-const { readDataFromFile } = require('../view/IO.js');
-const fileInputPath = '../view/input.txt';
+const { readDataFromFile } = require('../../src/view/IO.js');
 const {
   createCollections,
   createGrid,
   moveFigureDown,
   Field,
   convertFieldToText,
-} = require('../logic/script.js');
+} = require('../../src/logic/script.js');
 
-const data = readDataFromFile(fileInputPath);
-const grid = createGrid(data);
+const fileInputPath = '../view/input.txt';
 
-const { figurePoints, landscapePoints } = createCollections(grid);
+const createField = function (fileInputPath) {
+  const data = readDataFromFile(fileInputPath);
+  const grid = createGrid(data);
+  const { figurePoints, landscapePoints } = createCollections(grid);
 
-const field = new Field(grid.dimensions, figurePoints, landscapePoints);
+  const field = new Field(grid.dimensions, figurePoints, landscapePoints);
+  return field;
+};
 
 const runGameLoop = (initialField) => {
   let currentField = initialField;
@@ -27,7 +30,7 @@ const runGameLoop = (initialField) => {
     } else {
       currentField = newField;
     }
-  }, 1000);
+  }, 300);
 };
 
 const printFinalField = (field) => {
@@ -35,4 +38,18 @@ const printFinalField = (field) => {
   console.log(finalFieldText);
 };
 
-runGameLoop(field);
+//runGameLoop(field);
+
+const runGame = function (fileInputPath) {
+  const field = createField(fileInputPath);
+  runGameLoop(field);
+  printFinalField(field);
+};
+
+runGame(fileInputPath);
+module.exports = {
+  printFinalField,
+  runGameLoop,
+  createField,
+  runGame,
+};
