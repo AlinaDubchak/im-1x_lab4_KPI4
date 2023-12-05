@@ -38,8 +38,6 @@ const printFinalField = (field) => {
   console.log(finalFieldText);
 };
 
-//runGameLoop(field);
-
 const runGame = function (fileInputPath) {
   const field = createField(fileInputPath);
   runGameLoop(field);
