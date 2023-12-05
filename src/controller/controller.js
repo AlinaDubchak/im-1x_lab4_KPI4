@@ -1,4 +1,4 @@
-const { readDataFromFile } = require('../../src/view/IO.js');
+const { readDataFromFile, writeDataToFile } = require('../../src/view/IO.js');
 const {
   createCollections,
   createGrid,
@@ -7,7 +7,8 @@ const {
   convertFieldToText,
 } = require('../../src/logic/script.js');
 
-const fileInputPath = '../view/input.txt';
+const fileInputPath = './src/view/input.txt';
+const fileToWrite = './tests/view.tests/output.txt';
 
 const createField = function (fileInputPath) {
   const data = readDataFromFile(fileInputPath);
@@ -27,6 +28,7 @@ const runGameLoop = (initialField) => {
     if (JSON.stringify(currentField) === JSON.stringify(newField)) {
       clearInterval(gameLoop);
       printFinalField(currentField);
+      writeDataToFile(fileToWrite, currentField);
     } else {
       currentField = newField;
     }
@@ -42,6 +44,7 @@ const runGame = function (fileInputPath) {
   const field = createField(fileInputPath);
   runGameLoop(field);
   printFinalField(field);
+  writeDataToFile(fileToWrite, field);
 };
 
 runGame(fileInputPath);
