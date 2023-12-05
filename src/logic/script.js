@@ -48,13 +48,19 @@ class Field {
 }
 
 const moveFigureDown = function (field) {
-  const newFigurePoints = field.figurePoints.map((point) => ({ x: point.x, y: point.y + 1 }));
+  const newFigurePoints = field.figurePoints.map((point) => ({
+    x: point.x,
+    y: point.y + 1,
+  }));
   const overlap = newFigurePoints.some((point) =>
     field.landscapePoints.some(
-      (landscapePoint) => landscapePoint.x === point.x && landscapePoint.y === point.y
+      (landscapePoint) =>
+        landscapePoint.x === point.x && landscapePoint.y === point.y
     )
   );
-  const outOfBounds = newFigurePoints.some((point) => point.y >= field.dimensions.rows);
+  const outOfBounds = newFigurePoints.some(
+    (point) => point.y >= field.dimensions.rows
+  );
 
   if (overlap || outOfBounds) {
     return field;
@@ -62,9 +68,26 @@ const moveFigureDown = function (field) {
   return new Field(field.dimensions, newFigurePoints, field.landscapePoints);
 };
 
+const convertFieldToText = function (field) {
+  const { rows, cols } = field.dimensions;
+  const grid = Array.from({ length: rows }, () => Array(cols).fill('.'));
+
+  field.figurePoints.forEach(({ x, y }) => {
+    grid[y][x] = 'p';
+  });
+
+  field.landscapePoints.forEach(({ x, y }) => {
+    grid[y][x] = '#';
+  });
+
+  const gridText = grid.map((row) => row.join('')).join('\n');
+  return [gridText].join('\n');
+};
+
 module.exports = {
   createCollections,
   createGrid,
   Field,
   moveFigureDown,
+  convertFieldToText,
 };
