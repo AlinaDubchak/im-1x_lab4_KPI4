@@ -19,18 +19,19 @@ const createField = function (fileInputPath) {
   return field;
 };
 
-const runGameLoop = (initialField) => {
+const runGameLoop = (initialField, printNextFieldState = false) => {
   let currentField = initialField;
+  printFinalField(currentField);
 
   const gameLoop = setInterval(() => {
     const newField = moveFigureDown(currentField);
 
     if (JSON.stringify(currentField) === JSON.stringify(newField)) {
       clearInterval(gameLoop);
-      printFinalField(currentField);
       writeDataToFile(fileToWrite, currentField);
     } else {
       currentField = newField;
+      if (printNextFieldState) printFinalField(currentField);
     }
   }, 300);
 };
@@ -42,12 +43,11 @@ const printFinalField = (field) => {
 
 const runGame = function (fileInputPath) {
   const field = createField(fileInputPath);
-  runGameLoop(field);
-  printFinalField(field);
-  writeDataToFile(fileToWrite, field);
+  runGameLoop(field, (printNextFieldState = true));
 };
 
 runGame(fileInputPath);
+
 module.exports = {
   printFinalField,
   runGameLoop,
