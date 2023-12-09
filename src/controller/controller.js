@@ -47,6 +47,7 @@ const runGame = function (fileInputPath) {
 };
 
 runGame(fileInputPath);
+
 module.exports = {
   printFinalField,
   runGameLoop,

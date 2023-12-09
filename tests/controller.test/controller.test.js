@@ -14,10 +14,12 @@ const createGridMock = jest.fn((data) => {
   const rows = dimensions[0];
   const cols = dimensions[1];
   const grid = [];
+
   for (let i = 1; i < data.length; i++) {
     const row = data[i].split('');
     grid.push(row);
   }
+
   return { dimensions: { rows, cols }, grid };
 });
 
@@ -46,6 +48,7 @@ const createCollectionsMock = jest.fn(() => {
     { x: 4, y: 4 },
     { x: 5, y: 4 },
   ];
+
   return {
     figurePoints: fixedFigurePoints,
     landscapePoints: fixedLandscapePoints,
@@ -91,11 +94,13 @@ const moveFigureDownMock = jest.fn((field) => {
     x: point.x,
     y: point.y + 1,
   }));
+
   const overlap = newFigurePoints.some((point) =>
     field.landscapePoints.some(
       (landscapePoint) => landscapePoint.x === point.x && landscapePoint.y === point.y
     )
   );
+
   const outOfBounds = newFigurePoints.some((point) => point.y >= field.dimensions.rows);
 
   if (overlap || outOfBounds) {
