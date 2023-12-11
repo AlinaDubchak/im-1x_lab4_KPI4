@@ -1,7 +1,4 @@
-const {
-  convertFieldToText,
-  createCollections,
-} = require('../../src/logic/script');
+const { convertFieldToText, createCollections } = require('../../src/logic/script');
 
 jest.mock('../../src/logic/script', () => ({
   convertFieldToText: jest.fn(),
@@ -52,11 +49,9 @@ const createFieldMock = jest.fn((fileInputPath) => {
 
 const mockLog = () => {
   const logs = [];
-  const consoleSpy = jest
-    .spyOn(console, 'log')
-    .mockImplementation((...args) => {
-      logs.push(args.join(' '));
-    });
+  const consoleSpy = jest.spyOn(console, 'log').mockImplementation((...args) => {
+    logs.push(args.join(' '));
+  });
 
   return {
     release: () => {
@@ -74,26 +69,19 @@ const moveFigureDownMock = jest.fn((field) => {
 
   const overlap = newFigurePoints.some((point) =>
     field.landscapePoints.some(
-      (landscapePoint) =>
-        landscapePoint.x === point.x && landscapePoint.y === point.y
+      (landscapePoint) => landscapePoint.x === point.x && landscapePoint.y === point.y
     )
   );
 
-  const outOfBounds = newFigurePoints.some(
-    (point) => point.y >= field.dimensions.rows
-  );
+  const outOfBounds = newFigurePoints.some((point) => point.y >= field.dimensions.rows);
 
   if (overlap || outOfBounds) {
     return field;
   }
-  return new FieldMock(
-    field.dimensions,
-    newFigurePoints,
-    field.landscapePoints
-  );
+  return new FieldMock(field.dimensions, newFigurePoints, field.landscapePoints);
 });
 
-function runGameLoopMock(initialField, printNextFieldState = false, resolve) {
+function runGameLoopMock(initialField, printNextFieldState = false) {
   let currentField = initialField;
   printFinalFieldMock(currentField);
 
@@ -102,7 +90,6 @@ function runGameLoopMock(initialField, printNextFieldState = false, resolve) {
 
     if (JSON.stringify(currentField) === JSON.stringify(newField)) {
       clearInterval(gameLoop);
-      resolve(); // Resolve the promise to signal the end of the game loop
     } else {
       currentField = newField;
       if (printNextFieldState) printFinalFieldMock(currentField);
@@ -202,16 +189,35 @@ describe('createGridMock', () => {
   test('it should throw an error for empty input array', () => {
     const emptyInput = [];
 
-    expect(() => createGridMock(emptyInput)).toThrowError(
-      'Input array is empty'
-    );
+    expect(() => createGridMock(emptyInput)).toThrowError('Input array is empty');
   });
 
   test('it should throw an error for empty first element in the array', () => {
     const invalidInput = [''];
 
-    expect(() => createGridMock(invalidInput)).toThrowError(
-      'Input array is empty'
-    );
+    expect(() => createGridMock(invalidInput)).toThrowError('Input array is empty');
+  });
+});
+
+describe('runGameLoopMock', () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
+  test('it should invoke intermediate field states print', () => {
+    const mockField = {
+      dimensions: { rows: 3, cols: 3 },
+      figurePoints: [{ x: 2, y: 0 }],
+      landscapePoints: [
+        { x: 0, y: 1 },
+        { x: 0, y: 2 },
+        { x: 1, y: 2 },
+      ],
+    };
+    runGameLoopMock(mockField, true);
+
+    jest.advanceTimersByTime(300);
+
+    expect(printFinalFieldMock).toHaveBeenCalledTimes(3);
   });
 });
