@@ -11,8 +11,9 @@
 - When testing the "communication" layer, use mock
 
 ## Task
-The initial state is presented to the screen, which has one "suspended" figure and a "landscape" - the remains of previous figures. It is necessary to display the state of the game when the figure "fell" (that is, the player does not give any commands, but simply waits for the figure to collide with the "landscape")
-
+- Replace mocks created in Lab3 with library mocks
+- It is necessary to complete the program made in the laboratory #3 and add a parameter when transferring, which will display not only the last screen, but also the screen at each step of the game. At the same time, it is necessary to save the initial mode of operation (when only the last screen is displayed).
+  
 ## How to run
 Before running the project you should install certain dependencies:
 ```
@@ -28,13 +29,22 @@ npm test
 ```
 ## Contributors
 
-> [Дубчак Аліна](https://github.com/AlinaDubchak) (ІМ-13)
+> [Дубчак Аліна](https://github.com/AlinaDubchak) (ІМ-13)<br>
+
+> lab3
 
 - function createCollections + test
 - function parsing grid + test
 - loop for game && convert field to text + tests
-> [Мартинюк Марія](https://github.com/mmarty12) (ІМ-13)
+> lab4
+- improved function's mocks and added some tests for throw err
+> [Мартинюк Марія](https://github.com/mmarty12) (ІМ-13)<br>
+
+> lab3
 
 - CI/CD configuration;
 - functions to write in and read from files + tests for them;
 - created the Field class and the moveFigureDown function + tests
+
+> lab4
+- inhanced functionality and rewrote mocks + test for loop game
